@@ -26,6 +26,11 @@ app.filter('iconKeyword', function() {
         return filtered;
     }
 });
+
+app.config(function($sceProvider) {
+    $sceProvider.enabled(false);
+});
+
 app.filter('splitArrayFilter', function() {
     return function(arr, lengthofsublist) {
         if (!angular.isUndefined(arr) && arr.length > 0) {
@@ -92,7 +97,14 @@ app.controller('faPickerController', ['$scope', '$http',
             }
         };
         $scope.stackedIcons = [{
-            name: 'Test Icon'
+            name: 'Test Icon',
+            layers: [{
+                id: 1,
+                name: 'Base',
+                icon: 'fa-facebook'
+            }, {
+                id: 2
+            }]
         }];
         $scope.selectedStackedIcon = null;
         $scope.setSelectedStackedIcon = function(stackedIcon) {
@@ -111,12 +123,30 @@ app.controller('faPickerController', ['$scope', '$http',
                 name: name
             }).length == 0)
                 $scope.stackedIcons.push({
-                    name: name
+                    name: name,
+                    layers: []
                 });
             else
                 return 'An icon with this name already exists.';
         };
-
+        $scope.getStackedIcon = function(layers) {
+            if (typeof layers == 'object' && layers.length > 0) {
+                var container, layer, span;
+                container = $('<span></span>').addClass('fa-stack');
+                for (var i in layers) {
+                    layer = layers[i];
+                    if (layer.icon) {
+                        span = $('<span></span>');
+                        span.addClass('fa');
+                        span.addClass(layer.icon);
+                        span.addClass('fa-stack-' + i)
+                        container.append(span);
+                    }
+                }
+                return container.html();
+            }
+            return "No layers found for stacked icon.";
+        };
         $scope.setSelectedIcon = function(icon) {
             $scope.selectedIcon = icon;
             $('#iconTabs').on('toggled', function(event, tab) {
