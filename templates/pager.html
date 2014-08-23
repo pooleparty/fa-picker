@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="columns large-12">
+        <div class="row collapse">
+            <div class="columns large-11 small-10">
+                <input type="text"  ng-model="ikeyword" class="search" placeholder="Search by Name">
+            </div>
+            <div class="columns large-1 small-2">
+                <a class="button" ng-click="ikeyword = ''"><span class="fa fa-times fa-lg"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="columns large-12">
+        <ul class="font-awesome-icons large-block-grid-4 medium-block-grid-3 small-block-grid-2">
+            <li ng-repeat="icon in data | iconKeyword:ikeyword" class="fa-hover">
+                <div class="fa-hover"><span class="fa {{icon.icon}}"></span>
+                {{icon.icon}}</div>
+            </li>
+        </ul>
+    </div>
+</div>
