@@ -38,3 +38,4 @@ Icon
 
 node_modules
 .idea
+public/js/bundle.js
